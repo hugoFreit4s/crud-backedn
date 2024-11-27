@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Address;
 import com.example.demo.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,22 +15,22 @@ import java.util.UUID;
 public class UserController {
     List<User> usersList = new ArrayList<>();
 
-//    public UserController() {
-//        populateUsersList();
-//    }
-//
-//    private void populateUsersList() {
-//        String[] firstNames = {"John", "Jane", "Alice", "Bob", "Eve", "Charlie", "Dave", "Grace", "Hugo", "Ivy"};
-//        String[] lastNames = {"Smith", "Doe", "Johnson", "Brown", "Williams", "Jones", "Miller", "Davis", "Garcia", "Martinez"};
-//        Random random = new Random();
-//
-//        for (int i = 0; i < 150; i++) {
-//            String id = UUID.randomUUID().toString();
-//            String name = firstNames[random.nextInt(firstNames.length)] + " " + lastNames[random.nextInt(lastNames.length)];
-//            int age = random.nextInt(50) + 18;
-//            usersList.add(new User(id, name, age));
-//        }
-//    }
+    public UserController() {
+        populateUsersList();
+    }
+
+    private void populateUsersList() {
+        String[] firstNames = {"John", "Jane", "Alice", "Bob", "Eve", "Charlie", "Dave", "Grace", "Hugo", "Ivy"};
+        String[] lastNames = {"Smith", "Doe", "Johnson", "Brown", "Williams", "Jones", "Miller", "Davis", "Garcia", "Martinez"};
+        Random random = new Random();
+
+        for (int i = 0; i < 150; i++) {
+            String id = UUID.randomUUID().toString();
+            String name = firstNames[random.nextInt(firstNames.length)] + " " + lastNames[random.nextInt(lastNames.length)];
+            int age = random.nextInt(50) + 18;
+            usersList.add(new User(id, name, age, "3198977322", new Address("Rua 1", 1, "x", "test")));
+        }
+    }
 
     @GetMapping
     public List<User> GetALl() {
@@ -40,7 +41,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED) //STATUS 201
     public User Add(@RequestBody User userToAdd) {
         //Gerar ID aqui
-        User newUser = new User(UUID.randomUUID().toString(), userToAdd.getName(), userToAdd.getAge());
+        User newUser = new User(UUID.randomUUID().toString(), userToAdd.getName(), userToAdd.getAge(), userToAdd.getPhone(), userToAdd.getAddress());
         usersList.add(newUser);
         return newUser; //Retornar usuário completo
     }
@@ -63,6 +64,8 @@ public class UserController {
                 User userToEdit = usersList.get(i);
                 userToEdit.setName(newUser.getName());
                 userToEdit.setAge(newUser.getAge());
+                userToEdit.setPhone(newUser.getPhone());
+                userToEdit.setAddress(newUser.getAddress());
             }
         }
     }
