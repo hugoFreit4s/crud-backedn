@@ -1,18 +1,27 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class User {
-    private String ID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ID;
     private String name;
     private int age;
     private String phone;
-    private Address address;
 
-    public User(String ID, String name, int age, String phone, Address address) {
-        this.ID = ID;
+    public User(String name, int age, String phone) {
         this.name = name;
         this.age = age;
         this.phone = phone;
-        this.address = address;
+    }
+
+    public User(){
+
     }
 
     public String getPhone() {
@@ -21,22 +30,6 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public String getID() {
-        return ID;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
     }
 
     public String getName() {
@@ -49,6 +42,14 @@ public class User {
 
     public int getAge() {
         return age;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public void setAge(int age) {

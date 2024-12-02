@@ -1,72 +1,35 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Address;
 import com.example.demo.model.User;
-import org.springframework.http.HttpStatus;
+import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    List<User> usersList = new ArrayList<>();
-
-    public UserController() {
-        populateUsersList();
-    }
-
-    private void populateUsersList() {
-        String[] firstNames = {"John", "Jane", "Alice", "Bob", "Eve", "Charlie", "Dave", "Grace", "Hugo", "Ivy"};
-        String[] lastNames = {"Smith", "Doe", "Johnson", "Brown", "Williams", "Jones", "Miller", "Davis", "Garcia", "Martinez"};
-        Random random = new Random();
-
-        for (int i = 0; i < 150; i++) {
-            String id = UUID.randomUUID().toString();
-            String name = firstNames[random.nextInt(firstNames.length)] + " " + lastNames[random.nextInt(lastNames.length)];
-            int age = random.nextInt(50) + 18;
-            usersList.add(new User(id, name, age, "3198977322", new Address("Rua 1", 1, "x", "test")));
-        }
-    }
+    @Autowired
+    private UserService userService;
 
     @GetMapping
-    public List<User> GetALl() {
-        return usersList;
+    public List<User> listUsers() {
+        return userService.listUsers();
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED) //STATUS 201
-    public User Add(@RequestBody User userToAdd) {
-        //Gerar ID aqui
-        User newUser = new User(UUID.randomUUID().toString(), userToAdd.getName(), userToAdd.getAge(), userToAdd.getPhone(), userToAdd.getAddress());
-        usersList.add(newUser);
-        return newUser; //Retornar usuário completo
+    public String addUser(@RequestBody User user) {
+        return userService.addUser(user);
     }
 
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void Delete(@RequestBody String IDToFind) {
-        for (int i = 0; i < usersList.size(); i++) {
-            if (usersList.get(i).getID().equals(IDToFind)) {
-                usersList.remove(i);
-            }
-        }
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable int id) {
+        return userService.deleteUser(id);
     }
 
-    @PutMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void Edit(@RequestBody User newUser) {
-        for (int i = 0; i < usersList.size(); i++) {
-            if (usersList.get(i).getID().equals(newUser.getID())) {
-                User userToEdit = usersList.get(i);
-                userToEdit.setName(newUser.getName());
-                userToEdit.setAge(newUser.getAge());
-                userToEdit.setPhone(newUser.getPhone());
-                userToEdit.setAddress(newUser.getAddress());
-            }
-        }
+    @PutMapping("/{id}")
+    public String editUser(@PathVariable int id, @RequestBody User user) {
+        return userService.editUser(user) + "\nID -> " + id;
     }
 }
