@@ -17,6 +17,16 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Optional<User> listSpecificUser(int id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User userFound = optionalUser.get();
+            return Optional.of(userFound);
+        } else {
+            return Optional.empty();
+        }
+    }
+
     public String addUser(User user) {
         userRepository.save(user);
         return "User " + user.getName() + " added successfully!";
