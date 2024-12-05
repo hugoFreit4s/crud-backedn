@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import jakarta.annotation.Nonnull;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,10 +8,10 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Nonnull
     private String name;
     @ManyToOne
     @JoinColumn(name = "owner_ID", referencedColumnName = "ID")
+    @JsonBackReference
     private User owner;
 
     public Car() {

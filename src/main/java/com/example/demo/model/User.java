@@ -1,9 +1,10 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -13,6 +14,9 @@ public class User {
     private String name;
     private int age;
     private String phone;
+    @OneToMany(mappedBy = "owner")
+    @JsonManagedReference
+    private List<Car> cars;
 
     public User(String name, int age, String phone) {
         this.name = name;
@@ -20,7 +24,15 @@ public class User {
         this.phone = phone;
     }
 
-    public User(){
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
+
+    public User() {
 
     }
 
