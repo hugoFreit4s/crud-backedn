@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,27 +16,30 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> listUsers() {
-        return userService.listUsers();
+    public List<User> getAll() {
+        return userService.getAll();
+        //TODO
     }
 
     @GetMapping("/{id}")
-    public Optional<User> listSpecificUser(@PathVariable int id) {
-        return userService.listSpecificUser(id);
+    public UserResponseDTO getByID(@PathVariable int id) {
+        var response = userService.getByID(id);
+        return response.get();
+        //TODO: Resolver endpoint
     }
 
     @PostMapping
-    public String addUser(@RequestBody User user) {
-        return userService.addUser(user);
+    public String add(@RequestBody User user) {
+        return userService.add(user);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable int id) {
-        return userService.deleteUser(id);
+    public String delete(@PathVariable int id) {
+        return userService.delete(id);
     }
 
     @PutMapping("/{id}")
-    public String editUser(@PathVariable int id, @RequestBody User user) {
-        return userService.editUser(user) + "\nID -> " + id;
+    public String edit(@PathVariable int id, @RequestBody User user) {
+        return userService.edit(user) + "\nID -> " + id;
     }
 }

@@ -18,6 +18,6 @@ public class CarService {
 
     public String insertCar(Car car) {
         carRepository.save(car);
-        return car.getName() + " " + car.getOwner();
+        return car.getName() + " " + car.getOwner().getName();
     }
 }

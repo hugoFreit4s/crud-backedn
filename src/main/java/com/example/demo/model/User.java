@@ -14,7 +14,7 @@ public class User {
     private String name;
     private int age;
     private String phone;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Car> cars;
 

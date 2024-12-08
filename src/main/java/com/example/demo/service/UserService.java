@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.UserCarsDTO;
+import com.example.demo.dto.UserResponseDTO;
+import com.example.demo.model.Car;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,32 +16,37 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> listUsers() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
-    public Optional<User> listSpecificUser(int id) {
+    public Optional<UserResponseDTO> getByID(int id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User userFound = optionalUser.get();
-            return Optional.of(userFound);
+            UserResponseDTO response = new UserResponseDTO(userFound.getID(), userFound.getName());
+            for (Car currentCar : userFound.getCars()) {
+                UserCarsDTO carDTO = new UserCarsDTO(currentCar.getId(), currentCar.getName());
+                response.addCar(carDTO);
+            }
+            return Optional.of(response);
         } else {
             return Optional.empty();
         }
     }
 
-    public String addUser(User user) {
+    public String add(User user) {
         userRepository.save(user);
         return "User " + user.getName() + " added successfully!";
     }
 
-    public String deleteUser(int id) {
+    public String delete(int id) {
         String userName = userRepository.getReferenceById(id).getName();
         userRepository.deleteById(id);
         return "User " + userName + " deleted successfully!";
     }
 
-    public String editUser(User user) {
+    public String edit(User user) {
         Optional<User> optionalUser = userRepository.findById(user.getID());
         if (optionalUser.isPresent()) {
             User newUser = optionalUser.get();

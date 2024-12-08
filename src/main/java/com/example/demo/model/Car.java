@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,7 +12,7 @@ public class Car {
     private String name;
     @ManyToOne
     @JoinColumn(name = "owner_ID", referencedColumnName = "ID")
-    @JsonBackReference
+    @JsonIgnore
     private User owner;
 
     public Car() {
