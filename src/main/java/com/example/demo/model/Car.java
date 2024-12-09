@@ -19,15 +19,15 @@ public class Car {
     @JsonBackReference
     private User owner;
 
-    public Car() {
-    }
-
     public Car(String name, int manufactureYear, String brand, String modelName, double value, User owner) {
         this.name = name;
         this.brand = brand;
         this.modelName = modelName;
         this.value = value;
         this.owner = owner;
+    }
+
+    public Car() {
     }
 
     public int getId() {
