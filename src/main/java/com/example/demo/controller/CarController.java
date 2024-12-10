@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.UserCarsResponseDTO;
 import com.example.demo.model.Car;
 import com.example.demo.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class CarController {
     private CarService carService;
 
     @GetMapping
-    public List<Car> listAllCars() {
+    public List<UserCarsResponseDTO> listAllCars() {
         return carService.listAllCars();
     }
 

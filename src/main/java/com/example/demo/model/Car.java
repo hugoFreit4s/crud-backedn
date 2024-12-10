@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -19,8 +18,7 @@ public class Car {
     @JsonBackReference
     private User owner;
 
-    public Car(String name, int manufactureYear, String brand, String modelName, double value, User owner) {
-        this.name = name;
+    public Car(int manufactureYear, String brand, String modelName, double value, User owner) {
         this.brand = brand;
         this.modelName = modelName;
         this.value = value;
@@ -39,7 +37,7 @@ public class Car {
     }
 
     public String getName() {
-        return name;
+        return brand + " " + modelName;
     }
 
     public void setName(String name) {
