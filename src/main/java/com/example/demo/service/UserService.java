@@ -24,7 +24,7 @@ public class UserService {
             List<Car> userCars = currentUser.getCars();
             List<UserCarsResponseDTO> userCarsResponseDTO = new ArrayList<>();
             for (Car currentCar : userCars) {
-                UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getName(), currentCar.getOwner().getName());
+                UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getName(), currentCar.getOwner().getName(), currentCar.getValue());
                 userCarsResponseDTO.add(currentCarDTO);
             }
             UserResponseDTO userDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getGender(), currentUser.getPhone(), currentUser.getAge(), userCarsResponseDTO);
@@ -40,7 +40,7 @@ public class UserService {
             List<Car> userCars = userFound.getCars();
             List<UserCarsResponseDTO> userCarsResponseDTO = new ArrayList<>();
             for (Car currentCar : userCars) {
-                UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getName(), currentCar.getOwner().getName());
+                UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getName(), currentCar.getOwner().getName(), currentCar.getValue());
                 userCarsResponseDTO.add(currentCarDTO);
             }
             UserResponseDTO response = new UserResponseDTO(userFound.getID(), userFound.getName(), userFound.getGender(), userFound.getPhone(), userFound.getAge(), userCarsResponseDTO);

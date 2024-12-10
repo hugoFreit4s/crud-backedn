@@ -20,10 +20,10 @@ public class CarService {
         List<UserCarsResponseDTO> carsResponseDTO = new ArrayList<>();
         for (Car currentCar : allCars) {
             User currentOwner = currentCar.getOwner();
-            UserCarsResponseDTO carDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getName(), currentOwner.getName());
+            UserCarsResponseDTO carDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getName(), currentOwner.getName(), currentCar.getValue());
             carsResponseDTO.add(carDTO);
         }
-        return carsResponseDTO; //TODO: BUG HERE!
+        return carsResponseDTO;
     }
 
     public String insertCar(Car car) {

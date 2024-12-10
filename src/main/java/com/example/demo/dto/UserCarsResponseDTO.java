@@ -4,6 +4,22 @@ public class UserCarsResponseDTO {
     private int ID;
     private String ownerName;
     private String name;
+    private double value;
+
+    public UserCarsResponseDTO(int ID, String name, String ownerName, double value) {
+        this.ID = ID;
+        this.name = name;
+        this.ownerName = ownerName;
+        this.value = value;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
 
     public int getID() {
         return ID;
@@ -27,11 +43,5 @@ public class UserCarsResponseDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public UserCarsResponseDTO(int ID, String name, String ownerName) {
-        this.ID = ID;
-        this.name = name;
-        this.ownerName = ownerName;
     }
 }
