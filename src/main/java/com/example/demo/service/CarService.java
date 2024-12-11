@@ -21,7 +21,7 @@ public class CarService {
         List<UserCarsResponseDTO> carsResponseDTO = new ArrayList<>();
         for (Car currentCar : allCars) {
             User currentOwner = currentCar.getOwner();
-            UserCarsResponseDTO carDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue());
+            UserCarsResponseDTO carDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
             carsResponseDTO.add(carDTO);
         }
         return carsResponseDTO;
