@@ -4,8 +4,10 @@ import com.example.demo.dto.UserCarsResponseDTO;
 import com.example.demo.model.Car;
 import com.example.demo.model.User;
 import com.example.demo.repository.CarRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.Optional;
 public class CarService {
     @Autowired
     private CarRepository carRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<UserCarsResponseDTO> listAllCars() {
         List<Car> allCars = carRepository.findAll();
@@ -57,5 +61,17 @@ public class CarService {
         } else {
             return "Error";
         }
+    }
+
+    public List<UserCarsResponseDTO> getCarByBrand(String brand) {
+        List<UserCarsResponseDTO> filteredCars = new ArrayList<>();
+        for (Car currentCar : carRepository.findAll()) {
+            if (currentCar.getBrand().equals(brand)) {
+                User currentOwner = currentCar.getOwner();
+                UserCarsResponseDTO carDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
+                filteredCars.add(carDTO);
+            }
+        }
+        return filteredCars;
     }
 }

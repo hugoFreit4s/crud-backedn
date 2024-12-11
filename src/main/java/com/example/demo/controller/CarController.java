@@ -33,4 +33,9 @@ public class CarController {
     public String editCar(@RequestBody Car car) {
         return carService.editCar(car);
     }
+
+    @GetMapping("/{brand}")
+    public List<UserCarsResponseDTO> getCarByBrand(@PathVariable String brand) {
+        return carService.getCarByBrand(brand);
+    }
 }
