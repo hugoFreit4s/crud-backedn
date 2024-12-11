@@ -28,4 +28,9 @@ public class CarController {
     public String deleteCar(@RequestBody int id) {
         return carService.deleteCar(id);
     }
+
+    @PutMapping
+    public String editCar(@RequestBody Car car) {
+        return carService.editCar(car);
+    }
 }

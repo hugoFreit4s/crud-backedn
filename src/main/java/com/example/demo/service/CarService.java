@@ -42,4 +42,20 @@ public class CarService {
             return "Not found!";
         }
     }
+
+    public String editCar(Car newCar) {
+        Optional<Car> optionalCar = carRepository.findById(newCar.getId());
+        if (optionalCar.isPresent()) {
+            Car currentCar = optionalCar.get();
+            currentCar.setBrand(newCar.getBrand());
+            currentCar.setValue(newCar.getValue());
+            currentCar.setOwner(newCar.getOwner());
+            currentCar.setModelName(newCar.getModelName());
+            currentCar.setManufactureYear(newCar.getManufactureYear());
+            carRepository.save(currentCar);
+            return "Success!";
+        } else {
+            return "Error";
+        }
+    }
 }
