@@ -6,9 +6,9 @@ public class UserCarsResponseDTO {
     private String name;
     private double value;
 
-    public UserCarsResponseDTO(int ID, String name, String ownerName, double value) {
+    public UserCarsResponseDTO(int ID, String brand, String modelName, String ownerName, double value) {
         this.ID = ID;
-        this.name = name;
+        this.name = brand + " " + modelName;
         this.ownerName = ownerName;
         this.value = value;
     }

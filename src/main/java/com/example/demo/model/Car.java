@@ -8,7 +8,6 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
     private int manufactureYear;
     private String brand;
     private String modelName;
@@ -19,6 +18,7 @@ public class Car {
     private User owner;
 
     public Car(int manufactureYear, String brand, String modelName, double value, User owner) {
+        this.manufactureYear = manufactureYear;
         this.brand = brand;
         this.modelName = modelName;
         this.value = value;
@@ -34,14 +34,6 @@ public class Car {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return brand + " " + modelName;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getManufactureYear() {
