@@ -112,6 +112,24 @@ public class CarService {
                     filteredCars.add(currentCarDTO);
                 }
             }
+        } else if (minValue.isEmpty() && maxValue.isPresent()) {
+            double maxValueToFilter = Double.parseDouble(maxValue.get());
+            for (Car currentCar : carRepository.findAll()) {
+                if (currentCar.getValue() <= maxValueToFilter) {
+                    User currentOwner = currentCar.getOwner();
+                    UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
+                    filteredCars.add(currentCarDTO);
+                }
+            }
+        } else if (minValue.isPresent()) {
+            double minValueToFilter = Double.parseDouble(minValue.get());
+            for (Car currentCar : carRepository.findAll()) {
+                if (currentCar.getValue() >= minValueToFilter) {
+                    User currentOwner = currentCar.getOwner();
+                    UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
+                    filteredCars.add(currentCarDTO);
+                }
+            }
         }
         return filteredCars;
     }
