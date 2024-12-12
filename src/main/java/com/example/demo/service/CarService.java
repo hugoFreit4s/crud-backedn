@@ -4,10 +4,8 @@ import com.example.demo.dto.UserCarsResponseDTO;
 import com.example.demo.model.Car;
 import com.example.demo.model.User;
 import com.example.demo.repository.CarRepository;
-import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +15,6 @@ import java.util.Optional;
 public class CarService {
     @Autowired
     private CarRepository carRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     public List<UserCarsResponseDTO> listAllCars() {
         List<Car> allCars = carRepository.findAll();
@@ -63,13 +59,58 @@ public class CarService {
         }
     }
 
-    public List<UserCarsResponseDTO> getCarByBrand(String brand) {
+    public List<UserCarsResponseDTO> getCarByBrand(Optional<String> brand, Optional<String> minValue, Optional<String> maxValue) {
         List<UserCarsResponseDTO> filteredCars = new ArrayList<>();
-        for (Car currentCar : carRepository.findAll()) {
-            if (currentCar.getBrand().equalsIgnoreCase(brand)) {
-                User currentOwner = currentCar.getOwner();
-                UserCarsResponseDTO carDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
-                filteredCars.add(carDTO);
+
+        if (brand.isPresent() && minValue.isEmpty() && maxValue.isEmpty()) {
+            String brandToFilter = brand.get();
+            for (Car currentCar : carRepository.findAll()) {
+                if (currentCar.getBrand().equalsIgnoreCase(brandToFilter)) {
+                    User currentOwner = currentCar.getOwner();
+                    UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
+                    filteredCars.add(currentCarDTO);
+                }
+            }
+        } else if (brand.isPresent() && minValue.isPresent() && maxValue.isEmpty()) {
+            String brandToFilter = brand.get();
+            double minValueToFilter = Double.parseDouble(minValue.get());
+            for (Car currentCar : carRepository.findAll()) {
+                if (currentCar.getBrand().equalsIgnoreCase(brandToFilter) && currentCar.getValue() >= minValueToFilter) {
+                    User currentOwner = currentCar.getOwner();
+                    UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
+                    filteredCars.add(currentCarDTO);
+                }
+            }
+        } else if (brand.isPresent() && minValue.isEmpty()) {
+            String brandToFilter = brand.get();
+            double maxValueToFilter = Double.parseDouble(maxValue.get());
+            for (Car currentCar : carRepository.findAll()) {
+                if (currentCar.getBrand().equalsIgnoreCase(brandToFilter) && currentCar.getValue() <= maxValueToFilter) {
+                    User currentOwner = currentCar.getOwner();
+                    UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
+                    filteredCars.add(currentCarDTO);
+                }
+            }
+        } else if (brand.isPresent()) {
+            String brandToFilter = brand.get();
+            double maxValueToFilter = Double.parseDouble(maxValue.get());
+            double minValueToFilter = Double.parseDouble(minValue.get());
+            for (Car currentCar : carRepository.findAll()) {
+                if (currentCar.getBrand().equalsIgnoreCase(brandToFilter) && currentCar.getValue() >= minValueToFilter && currentCar.getValue() <= maxValueToFilter) {
+                    User currentOwner = currentCar.getOwner();
+                    UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
+                    filteredCars.add(currentCarDTO);
+                }
+            }
+        } else if (minValue.isPresent() && maxValue.isPresent()) {
+            double maxValueToFilter = Double.parseDouble(maxValue.get());
+            double minValueToFilter = Double.parseDouble(minValue.get());
+            for (Car currentCar : carRepository.findAll()) {
+                if (currentCar.getValue() >= minValueToFilter && currentCar.getValue() <= maxValueToFilter) {
+                    User currentOwner = currentCar.getOwner();
+                    UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
+                    filteredCars.add(currentCarDTO);
+                }
             }
         }
         return filteredCars;

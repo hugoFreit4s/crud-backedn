@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/car")
@@ -34,9 +35,9 @@ public class CarController {
         return carService.editCar(car);
     }
 
-    @GetMapping("/brandfilter")
+    @GetMapping("/filter")
     @ResponseBody
-    public List<UserCarsResponseDTO> getCarByBrand(@RequestParam String brand) {
-        return carService.getCarByBrand(brand);
+    public List<UserCarsResponseDTO> getCarByBrand(@RequestParam(required = false) Optional<String> brand, @RequestParam(required = false) Optional<String> minValue, @RequestParam(required = false) Optional<String> maxValue) {
+        return carService.getCarByBrand(brand, minValue, maxValue);
     }
 }
