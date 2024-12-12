@@ -66,7 +66,7 @@ public class CarService {
     public List<UserCarsResponseDTO> getCarByBrand(String brand) {
         List<UserCarsResponseDTO> filteredCars = new ArrayList<>();
         for (Car currentCar : carRepository.findAll()) {
-            if (currentCar.getBrand().equals(brand)) {
+            if (currentCar.getBrand().equalsIgnoreCase(brand)) {
                 User currentOwner = currentCar.getOwner();
                 UserCarsResponseDTO carDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentOwner.getName(), currentCar.getValue(), currentCar.getManufactureYear());
                 filteredCars.add(carDTO);

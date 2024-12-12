@@ -34,8 +34,9 @@ public class CarController {
         return carService.editCar(car);
     }
 
-    @GetMapping("/{brand}")
-    public List<UserCarsResponseDTO> getCarByBrand(@PathVariable String brand) {
+    @GetMapping("/brandfilter")
+    @ResponseBody
+    public List<UserCarsResponseDTO> getCarByBrand(@RequestParam String brand) {
         return carService.getCarByBrand(brand);
     }
 }
