@@ -79,7 +79,7 @@ public class UserService {
         List<UserResponseDTO> filteredUsers = new ArrayList<>();
         if (gender.isPresent() && age.isPresent()) {
             String genderToFilter = gender.get();
-            Integer ageToFilter = Integer.parseInt(age.get());
+            int ageToFilter = Integer.parseInt(age.get());
             for (User currentUser : userRepository.findAll()) {
                 if (currentUser.getGender().equalsIgnoreCase(genderToFilter) && currentUser.getAge() == ageToFilter) {
                     List<Car> currentUserCars = currentUser.getCars();
@@ -107,7 +107,7 @@ public class UserService {
                 }
             }
         } else if (age.isPresent()) {
-            Integer ageToFilter = Integer.parseInt(age.get());
+            int ageToFilter = Integer.parseInt(age.get());
             for (User currentUser : userRepository.findAll()) {
                 if (currentUser.getAge() == ageToFilter) {
                     List<Car> currentUserCars = currentUser.getCars();
