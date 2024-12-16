@@ -13,35 +13,20 @@ public class User {
     private int ID;
     private String name;
     private String gender;
-    private LocalDate birthDate;
+    private String birthDate;
     private String phone;
-    private int age;
     @OneToMany(mappedBy = "owner")
     @JsonManagedReference
     private List<Car> cars;
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public User(String name, String gender, LocalDate birthDate, String phone) {
+    public User(String name, String gender, String birthDate, String phone) {
         this.name = name;
         this.gender = gender;
         this.birthDate = birthDate;
         this.phone = phone;
-        this.age = ageCalc(birthDate);
     }
 
     public User() {
-    }
-
-    public int ageCalc(LocalDate birthDate) {
-        LocalDate today = LocalDate.now();
-        return today.getYear() - birthDate.getYear();
     }
 
     public int getID() {
@@ -68,11 +53,11 @@ public class User {
         this.gender = gender;
     }
 
-    public LocalDate getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

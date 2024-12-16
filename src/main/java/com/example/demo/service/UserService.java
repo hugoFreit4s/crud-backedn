@@ -30,7 +30,7 @@ public class UserService {
                 UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentCar.getOwner().getName(), currentCar.getValue(), currentCar.getManufactureYear());
                 userCarsResponseDTO.add(currentCarDTO);
             }
-            UserResponseDTO userDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getGender(), currentUser.getPhone(), currentUser.getAge(), userCarsResponseDTO);
+            UserResponseDTO userDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getBirthDate(), currentUser.getGender(), currentUser.getPhone(), userCarsResponseDTO);
             usersReponse.add(userDTO);
         }
         return usersReponse;
@@ -46,7 +46,7 @@ public class UserService {
                 UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentCar.getOwner().getName(), currentCar.getValue(), currentCar.getManufactureYear());
                 userCarsResponseDTO.add(currentCarDTO);
             }
-            UserResponseDTO response = new UserResponseDTO(userFound.getID(), userFound.getName(), userFound.getGender(), userFound.getPhone(), userFound.getAge(), userCarsResponseDTO);
+            UserResponseDTO response = new UserResponseDTO(userFound.getID(), userFound.getName(), userFound.getBirthDate(), userFound.getGender(), userFound.getPhone(), userCarsResponseDTO);
             return Optional.of(response);
         } else {
             return Optional.empty();
@@ -78,8 +78,8 @@ public class UserService {
         }
     }
 
-    public List<UserResponseDTO> filter(String gender, String age) {
-        Specification<User> specification = UserSpecification.filter(gender, age);
+    public List<UserResponseDTO> filter(String gender, String minAge, String maxAge) {
+        Specification<User> specification = UserSpecification.filter(gender, minAge, maxAge);
         List<User> users = userRepository.findAll(specification);
         List<UserResponseDTO> usersDTO = new ArrayList<>();
         for (User currentUser : users) {
@@ -88,7 +88,7 @@ public class UserService {
                 UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentCar.getOwner().getName(), currentCar.getValue(), currentCar.getManufactureYear());
                 currentUserCarsDTO.add(currentCarDTO);
             }
-            UserResponseDTO currentUserDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getGender(), currentUser.getPhone(), currentUser.getAge(), currentUserCarsDTO);
+            UserResponseDTO currentUserDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getBirthDate(), currentUser.getGender(), currentUser.getPhone(), currentUserCarsDTO);
             usersDTO.add(currentUserDTO);
         }
         return usersDTO;

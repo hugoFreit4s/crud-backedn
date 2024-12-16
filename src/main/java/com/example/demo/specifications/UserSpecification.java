@@ -7,10 +7,10 @@ import org.springframework.data.jpa.domain.Specification;
 
 
 public class UserSpecification {
-    public static Specification<User> filter(String gender, String age) {
+    public static Specification<User> filter(String gender, String minAge, String maxAge) {
         return (root, _, criteriaBuilder) -> {
             Predicate genderPredicate = criteriaBuilder.equal(root.get("gender"), gender);
-            Predicate agePredicate = criteriaBuilder.equal(root.get("age"), Integer.parseInt(age));
+            Predicate agePredicate = criteriaBuilder.between(root.get("age"), minAge, maxAge);
             return criteriaBuilder.and(genderPredicate, agePredicate);
         };
     }

@@ -45,7 +45,7 @@ public class UserController {
 
     @GetMapping("/filter")
     @ResponseBody
-    public List<UserResponseDTO> filter(@RequestParam(required = false) String gender, @RequestParam(required = false, defaultValue = "7") String age) {
-        return userService.filter(gender, age);
+    public List<UserResponseDTO> filter(@RequestParam(required = false) String gender, @RequestParam(required = false, defaultValue = "0") String minAge, @RequestParam(required = false, defaultValue = "100") String maxAge) {
+        return userService.filter(gender, minAge, maxAge);
     }
 }
