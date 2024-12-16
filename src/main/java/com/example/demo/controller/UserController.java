@@ -2,20 +2,18 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.model.User;
-import com.example.demo.service.CarService;
 import com.example.demo.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
-    private CarService carService;
+    private final UserService userService;
 
     @GetMapping
     public List<UserResponseDTO> getAll() {
@@ -47,7 +45,7 @@ public class UserController {
 
     @GetMapping("/filter")
     @ResponseBody
-    public List<UserResponseDTO> filter(@RequestParam(required = false) Optional<String> gender, @RequestParam(required = false) Optional<String> age) {
+    public List<UserResponseDTO> filter(@RequestParam(required = false) String gender, @RequestParam(required = false, defaultValue = "7") String age) {
         return userService.filter(gender, age);
     }
 }

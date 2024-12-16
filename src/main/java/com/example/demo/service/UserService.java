@@ -5,7 +5,10 @@ import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.model.Car;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.specifications.UserSpecification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,9 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public List<UserResponseDTO> getAll() {
         List<User> allUsers = userRepository.findAll();
@@ -75,52 +78,19 @@ public class UserService {
         }
     }
 
-    public List<UserResponseDTO> filter(Optional<String> gender, Optional<String> age) {
-        List<UserResponseDTO> filteredUsers = new ArrayList<>();
-        if (gender.isPresent() && age.isPresent()) {
-            String genderToFilter = gender.get();
-            int ageToFilter = Integer.parseInt(age.get());
-            for (User currentUser : userRepository.findAll()) {
-                if (currentUser.getGender().equalsIgnoreCase(genderToFilter) && currentUser.getAge() == ageToFilter) {
-                    List<Car> currentUserCars = currentUser.getCars();
-                    List<UserCarsResponseDTO> currentUserCarsDTO = new ArrayList<>();
-                    for (Car currentCar : currentUserCars) {
-                        UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentCar.getOwner().getName(), currentCar.getValue(), currentCar.getManufactureYear());
-                        currentUserCarsDTO.add(currentCarDTO);
-                    }
-                    UserResponseDTO currentUserDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getGender(), currentUser.getPhone(), currentUser.getAge(), currentUserCarsDTO);
-                    filteredUsers.add(currentUserDTO);
-                }
+    public List<UserResponseDTO> filter(String gender, String age) {
+        Specification<User> specification = UserSpecification.filter(gender, age);
+        List<User> users = userRepository.findAll(specification);
+        List<UserResponseDTO> usersDTO = new ArrayList<>();
+        for (User currentUser : users) {
+            List<UserCarsResponseDTO> currentUserCarsDTO = new ArrayList<>();
+            for (Car currentCar : currentUser.getCars()) {
+                UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentCar.getOwner().getName(), currentCar.getValue(), currentCar.getManufactureYear());
+                currentUserCarsDTO.add(currentCarDTO);
             }
-        } else if (gender.isPresent()) {
-            String genderToFilter = gender.get();
-            for (User currentUser : userRepository.findAll()) {
-                if (currentUser.getGender().equalsIgnoreCase(genderToFilter)) {
-                    List<Car> currentUserCars = currentUser.getCars();
-                    List<UserCarsResponseDTO> currentUserCarsDTO = new ArrayList<>();
-                    for (Car currentCar : currentUserCars) {
-                        UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentCar.getOwner().getName(), currentCar.getValue(), currentCar.getManufactureYear());
-                        currentUserCarsDTO.add(currentCarDTO);
-                    }
-                    UserResponseDTO currentUserDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getGender(), currentUser.getPhone(), currentUser.getAge(), currentUserCarsDTO);
-                    filteredUsers.add(currentUserDTO);
-                }
-            }
-        } else if (age.isPresent()) {
-            int ageToFilter = Integer.parseInt(age.get());
-            for (User currentUser : userRepository.findAll()) {
-                if (currentUser.getAge() == ageToFilter) {
-                    List<Car> currentUserCars = currentUser.getCars();
-                    List<UserCarsResponseDTO> currentUserCarsDTO = new ArrayList<>();
-                    for (Car currentCar : currentUserCars) {
-                        UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentCar.getOwner().getName(), currentCar.getValue(), currentCar.getManufactureYear());
-                        currentUserCarsDTO.add(currentCarDTO);
-                    }
-                    UserResponseDTO currentUserDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getGender(), currentUser.getPhone(), currentUser.getAge(), currentUserCarsDTO);
-                    filteredUsers.add(currentUserDTO);
-                }
-            }
+            UserResponseDTO currentUserDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getGender(), currentUser.getPhone(), currentUser.getAge(), currentUserCarsDTO);
+            usersDTO.add(currentUserDTO);
         }
-        return filteredUsers;
+        return usersDTO;
     }
 }
