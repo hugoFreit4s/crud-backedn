@@ -30,7 +30,7 @@ public class UserService {
                 UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentCar.getOwner().getName(), currentCar.getValue(), currentCar.getManufactureYear());
                 userCarsResponseDTO.add(currentCarDTO);
             }
-            UserResponseDTO userDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getBirthDate(), currentUser.getGender(), currentUser.getPhone(), userCarsResponseDTO);
+            UserResponseDTO userDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getAge(), currentUser.getBirthDate(), currentUser.getGender(), currentUser.getPhone(), userCarsResponseDTO);
             usersReponse.add(userDTO);
         }
         return usersReponse;
@@ -46,7 +46,7 @@ public class UserService {
                 UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentCar.getOwner().getName(), currentCar.getValue(), currentCar.getManufactureYear());
                 userCarsResponseDTO.add(currentCarDTO);
             }
-            UserResponseDTO response = new UserResponseDTO(userFound.getID(), userFound.getName(), userFound.getBirthDate(), userFound.getGender(), userFound.getPhone(), userCarsResponseDTO);
+            UserResponseDTO response = new UserResponseDTO(userFound.getID(), userFound.getName(), userFound.getAge(), userFound.getBirthDate(), userFound.getGender(), userFound.getPhone(), userCarsResponseDTO);
             return Optional.of(response);
         } else {
             return Optional.empty();
@@ -88,7 +88,7 @@ public class UserService {
                 UserCarsResponseDTO currentCarDTO = new UserCarsResponseDTO(currentCar.getId(), currentCar.getBrand(), currentCar.getModelName(), currentCar.getOwner().getName(), currentCar.getValue(), currentCar.getManufactureYear());
                 currentUserCarsDTO.add(currentCarDTO);
             }
-            UserResponseDTO currentUserDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getBirthDate(), currentUser.getGender(), currentUser.getPhone(), currentUserCarsDTO);
+            UserResponseDTO currentUserDTO = new UserResponseDTO(currentUser.getID(), currentUser.getName(), currentUser.getAge(), currentUser.getBirthDate(), currentUser.getGender(), currentUser.getPhone(), currentUserCarsDTO);
             usersDTO.add(currentUserDTO);
         }
         return usersDTO;

@@ -16,25 +16,13 @@ public class UserResponseDTO {
     private long age;
     private List<UserCarsResponseDTO> cars;
 
-    public UserResponseDTO(int ID, String name, String birthDate, String gender, String phone, List<UserCarsResponseDTO> cars) {
+    public UserResponseDTO(int ID, String name, long age, String birthDate, String gender, String phone, List<UserCarsResponseDTO> cars) {
         this.ID = ID;
         this.name = name;
         this.gender = gender;
         this.phone = phone;
         this.cars = cars;
-        this.age = calcAge(birthDate);
-    }
-
-    public long calcAge(String birthDate) {
-        String[] stringDate = birthDate.split("-");
-        int year = Integer.parseInt(stringDate[0]);
-        int month = Integer.parseInt(stringDate[1]);
-        int day = Integer.parseInt(stringDate[2]);
-        LocalDate formattedBirthDate = LocalDate.of(year, month, day);
-        LocalDateTime today = LocalDateTime.now();
-        LocalDateTime formattedBirthDateTime = LocalDateTime.of(formattedBirthDate, LocalTime.now());
-        long daysDiff = Duration.between(formattedBirthDateTime, today).toDays();
-        return daysDiff / 365;
+        this.age = age;
     }
 
     public void setCars(List<UserCarsResponseDTO> cars) {
@@ -84,10 +72,4 @@ public class UserResponseDTO {
     public List<UserCarsResponseDTO> getCars() {
         return cars;
     }
-
-    public void addCar(UserCarsResponseDTO car) {
-        this.cars.add(car);
-    }
-
-    //TODO: Remove car method
 }

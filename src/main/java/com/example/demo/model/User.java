@@ -3,7 +3,10 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -12,6 +15,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private String name;
+    private long age;
     private String gender;
     private String birthDate;
     private String phone;
@@ -24,9 +28,37 @@ public class User {
         this.gender = gender;
         this.birthDate = birthDate;
         this.phone = phone;
+        this.age = calcAge(birthDate);
     }
 
     public User() {
+    }
+
+    public long calcAge(String birthDate) {
+        String[] stringDate = birthDate.split("-");
+        int year = Integer.parseInt(stringDate[0]);
+        int month = Integer.parseInt(stringDate[1]);
+        int day = Integer.parseInt(stringDate[2]);
+        LocalDate formattedBirthDate = LocalDate.of(year, month, day);
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime formattedBirthDateTime = LocalDateTime.of(formattedBirthDate, LocalTime.now());
+        long daysDiff = Duration.between(formattedBirthDateTime, today).toDays();
+        return daysDiff / 365;
+    }
+
+    @PostLoad
+    @PostPersist
+    @PostUpdate
+    private void calcAgeAfterLoad() {
+        this.age = calcAge(this.birthDate);
+    }
+
+    public long getAge() {
+        return age;
+    }
+
+    public void setAge(long age) {
+        this.age = age;
     }
 
     public int getID() {
